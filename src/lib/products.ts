@@ -278,6 +278,66 @@ export const products: Product[] = [
       },
     ],
   },
+  {
+    slug: "crystal-pendant-necklace-accessories",
+    name: "Crystal Pendant Necklace",
+    priceFormatted: "₹ 9,490.00",
+    description: "A versatile crystal pendant on a delicate chain—perfect for layering or wearing alone.",
+    category: "Accessories",
+    images: [{ src: "https://picsum.photos/seed/accessory-1/900/1200", alt: "Crystal pendant necklace" }],
+    highlights: ["Crystal pendant", "Adjustable chain", "Gold-tone finish"],
+    collection: "accessories",
+  },
+  {
+    slug: "crystal-stud-earrings-accessories",
+    name: "Crystal Stud Earrings",
+    priceFormatted: "₹ 5,990.00",
+    description: "Classic crystal studs for everyday elegance.",
+    category: "Accessories",
+    images: [{ src: "https://picsum.photos/seed/accessory-2/900/1200", alt: "Crystal stud earrings" }],
+    highlights: ["Round-cut crystal", "Hypoallergenic", "Secure clutch"],
+    collection: "accessories",
+  },
+  {
+    slug: "crystal-figurine-swan-decorations",
+    name: "Swan Crystal Figurine",
+    priceFormatted: "₹ 12,900.00",
+    description: "Handcrafted crystal swan figurine for display or gifting.",
+    category: "Decorations",
+    images: [{ src: "https://picsum.photos/seed/decor-1/900/1200", alt: "Swan crystal figurine" }],
+    highlights: ["Hand-finished", "Display stand included", "Gift box"],
+    collection: "decorations",
+  },
+  {
+    slug: "crystal-heart-decoration",
+    name: "Crystal Heart Decoration",
+    priceFormatted: "₹ 6,490.00",
+    description: "A radiant crystal heart—ideal for Valentine's or home decor.",
+    category: "Decorations",
+    images: [{ src: "https://picsum.photos/seed/decor-2/900/1200", alt: "Crystal heart" }],
+    highlights: ["Clear crystal", "Elegant packaging", "Perfect gift"],
+    collection: "decorations",
+  },
+  {
+    slug: "gift-set-jewelry-box",
+    name: "Jewelry Gift Set",
+    priceFormatted: "₹ 18,900.00",
+    description: "Curated gift set featuring a necklace and matching earrings in a premium box.",
+    category: "Gifts",
+    images: [{ src: "https://picsum.photos/seed/gift-1/900/1200", alt: "Jewelry gift set" }],
+    highlights: ["Gift box included", "Ribbon packaging", "Card included"],
+    collection: "gifts",
+  },
+  {
+    slug: "crystal-bracelet-gift",
+    name: "Crystal Bracelet Gift",
+    priceFormatted: "₹ 8,990.00",
+    description: "A sparkling bracelet presented in a signature gift box.",
+    category: "Gifts",
+    images: [{ src: "https://picsum.photos/seed/gift-2/900/1200", alt: "Crystal bracelet gift" }],
+    highlights: ["Gift-ready packaging", "Adjustable", "Crystal accents"],
+    collection: "gifts",
+  },
 ];
 
 export function getProductBySlug(slug: string): Product | undefined {
@@ -289,5 +349,88 @@ export function getRelatedProducts(currentSlug: string): Product[] {
   const current = products.find((p) => p.slug === currentSlug);
   return products.filter(
     (p) => p.slug !== currentSlug && (!current || p.collection === current.collection),
+  );
+}
+
+export type CollectionSlug =
+  | "new-in"
+  | "jewelry"
+  | "watches"
+  | "accessories"
+  | "decorations"
+  | "gifts"
+  | "wedding"
+  | "outlet";
+
+export const COLLECTION_SLUGS: CollectionSlug[] = [
+  "new-in",
+  "jewelry",
+  "watches",
+  "accessories",
+  "decorations",
+  "gifts",
+  "wedding",
+  "outlet",
+];
+
+export function getCollectionBySlug(slug: string): { slug: string; name: string } | undefined {
+  const names: Record<string, string> = {
+    "new-in": "New In",
+    jewelry: "Jewelry",
+    watches: "Watches",
+    accessories: "Accessories",
+    decorations: "Decorations",
+    gifts: "Gifts",
+    wedding: "Wedding Jewelry",
+    outlet: "Outlet",
+  };
+  if (!names[slug]) return undefined;
+  return { slug, name: names[slug] };
+}
+
+export function getProductsByCollection(
+  collectionSlug: string,
+  options?: { sort?: "featured" | "price-asc" | "price-desc"; page?: number; perPage?: number }
+): { products: Product[]; total: number; page: number; perPage: number; totalPages: number } {
+  const perPage = options?.perPage ?? 12;
+  const page = Math.max(1, options?.page ?? 1);
+
+  let list = products.filter((p) => {
+    if (collectionSlug === "new-in" || collectionSlug === "outlet") return true;
+    if (collectionSlug === "wedding") return p.category.toLowerCase().includes("wedding") || p.collection === "jewelry";
+    return p.collection === collectionSlug;
+  });
+
+  if (options?.sort === "price-asc") {
+    list = [...list].sort((a, b) => {
+      const na = Number.parseFloat(a.priceFormatted.replace(/[^0-9.]/g, "")) || 0;
+      const nb = Number.parseFloat(b.priceFormatted.replace(/[^0-9.]/g, "")) || 0;
+      return na - nb;
+    });
+  } else if (options?.sort === "price-desc") {
+    list = [...list].sort((a, b) => {
+      const na = Number.parseFloat(a.priceFormatted.replace(/[^0-9.]/g, "")) || 0;
+      const nb = Number.parseFloat(b.priceFormatted.replace(/[^0-9.]/g, "")) || 0;
+      return nb - na;
+    });
+  }
+
+  const total = list.length;
+  const totalPages = Math.max(1, Math.ceil(total / perPage));
+  const start = (page - 1) * perPage;
+  const paginated = list.slice(start, start + perPage);
+
+  return { products: paginated, total, page, perPage, totalPages };
+}
+
+export function searchProducts(query: string): Product[] {
+  if (!query.trim()) return [];
+  const lower = query.toLowerCase().trim();
+  return products.filter(
+    (p) =>
+      p.name.toLowerCase().includes(lower) ||
+      p.description.toLowerCase().includes(lower) ||
+      p.category.toLowerCase().includes(lower) ||
+      p.highlights.some((h) => h.toLowerCase().includes(lower))
   );
 }

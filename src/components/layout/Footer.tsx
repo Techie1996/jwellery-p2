@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 
 const CUSTOMER_SERVICE_LINKS = [
   { label: "Customer Service", href: "/" },
@@ -12,10 +14,10 @@ const CUSTOMER_SERVICE_LINKS = [
 ];
 
 const SHOP_LINKS = [
-  { label: "Jewelry", href: "/jewelry" },
-  { label: "Wedding Jewelry", href: "/wedding-jewelry" },
-  { label: "Watches", href: "/" },
-  { label: "Gifts", href: "/" },
+  { label: "Jewelry", href: "/collections/jewelry" },
+  { label: "Wedding Jewelry", href: "/collections/wedding" },
+  { label: "Watches", href: "/collections/watches" },
+  { label: "Gifts", href: "/collections/gifts" },
 ];
 
 const ABOUT_LINKS = [
@@ -47,10 +49,10 @@ function FooterColumn({
 }) {
   return (
     <div className={className}>
-      <h3 className="mb-4 text-[11px] font-semibold tracking-[0.2em] uppercase text-white/90">
+      <h3 className="mb-3 text-[11px] font-semibold tracking-[0.2em] uppercase text-white/90">
         {title}
       </h3>
-      <ul className="space-y-3">
+      <ul className="space-y-2">
         {links.map((link) => (
           <li key={link.label}>
             <Link
@@ -66,22 +68,71 @@ function FooterColumn({
   );
 }
 
+function FooterSectionCollapsible({
+  title,
+  links,
+}: {
+  title: string;
+  links: { label: string; href: string }[];
+}) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="border-b border-neutral-700 last:border-b-0">
+      <button
+        type="button"
+        onClick={() => setOpen(!open)}
+        className="flex w-full items-center justify-between py-3 text-left text-[11px] font-semibold tracking-[0.2em] uppercase text-white/90"
+      >
+        {title}
+        <span
+          className="inline-flex h-6 w-6 items-center justify-center rounded-md border border-neutral-700 text-[16px] leading-none text-white/80"
+          aria-hidden="true"
+        >
+          {open ? "−" : "+"}
+        </span>
+      </button>
+      <AnimatePresence>
+        {open && (
+          <motion.ul
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="overflow-hidden"
+          >
+            {links.map((link) => (
+              <li key={link.label}>
+                <Link
+                  href={link.href}
+                  className="block py-2 text-[13px] text-neutral-300 hover:text-white"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+          </motion.ul>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
 export function Footer() {
   return (
-    <footer className="mt-24 border-t border-neutral-200 bg-neutral-900">
+    <footer className="mt-16 border-t border-neutral-200 bg-neutral-900 lg:mt-24">
       <div className="page-shell">
-        {/* Main footer grid */}
-        <div className="grid gap-12 border-b border-neutral-700 py-14 sm:grid-cols-2 lg:grid-cols-[1.5fr,1fr,1fr,1fr]">
-          <div className="lg:col-span-1">
+        {/* Desktop: compact grid */}
+        <div className="hidden gap-8 border-b border-neutral-700 py-8 lg:grid lg:grid-cols-[1.5fr,1fr,1fr,1fr]">
+          <div>
             <Link href="/" className="inline-block">
-              <span className="font-heading text-[24px] tracking-[0.28em] text-white">
+              <span className="font-heading text-[20px] tracking-[0.28em] text-white">
                 LUXURY CRYSTAL
               </span>
             </Link>
-            <p className="mt-4 max-w-xs text-[14px] leading-relaxed text-neutral-400">
+            <p className="mt-3 max-w-xs text-[13px] leading-relaxed text-neutral-400">
               Timeless jewelry and accessories crafted with precision and elegance.
             </p>
-            <div className="mt-6 flex gap-4">
+            <div className="mt-4 flex gap-4">
               {SOCIAL_LINKS.map((social) => (
                 <a
                   key={social.label}
@@ -98,27 +149,51 @@ export function Footer() {
           </div>
           <FooterColumn title="Customer Service" links={CUSTOMER_SERVICE_LINKS} />
           <FooterColumn title="Shop" links={SHOP_LINKS} />
-          <div className="space-y-10">
+          <div className="space-y-6">
             <FooterColumn title="About" links={ABOUT_LINKS} />
             <FooterColumn title="Legal" links={LEGAL_LINKS} />
           </div>
         </div>
 
-        {/* Contact info */}
-        <div className="flex flex-col gap-4 border-b border-neutral-700 py-8 sm:flex-row sm:items-center sm:justify-between">
-          <div className="space-y-1">
-            <p className="text-[13px] font-medium text-white">Contact</p>
-            <p className="text-[14px] text-neutral-400">support@luxurycrystal.com</p>
-            <p className="text-[14px] text-neutral-400">+91 1800 123 4567</p>
+        {/* Mobile: collapsible sections */}
+        <div className="py-6 lg:hidden">
+          <FooterSectionCollapsible title="Shop" links={SHOP_LINKS} />
+          <FooterSectionCollapsible title="Customer Service" links={CUSTOMER_SERVICE_LINKS} />
+          <FooterSectionCollapsible title="About" links={ABOUT_LINKS} />
+          <FooterSectionCollapsible title="Legal" links={LEGAL_LINKS} />
+          <div className="border-b border-neutral-700 py-4">
+            <Link href="/" className="font-heading text-[18px] tracking-[0.2em] text-white">
+              LUXURY CRYSTAL
+            </Link>
+            <p className="mt-2 text-[12px] text-neutral-400">
+              Timeless jewelry and accessories.
+            </p>
+            <div className="mt-3 flex gap-4">
+              {SOCIAL_LINKS.map((social) => (
+                <a
+                  key={social.label}
+                  href={social.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-neutral-400 hover:text-white"
+                  aria-label={social.label}
+                >
+                  <SocialIcon name={social.icon} />
+                </a>
+              ))}
+            </div>
           </div>
-          <p className="text-[13px] tracking-[0.16em] uppercase text-neutral-500">
-            India · English
-          </p>
         </div>
 
-        {/* Copyright */}
-        <div className="flex flex-col items-center justify-between gap-4 py-6 sm:flex-row">
-          <p className="text-[13px] text-neutral-500">
+        {/* Contact + Copyright: compact */}
+        <div className="flex flex-col gap-3 border-b border-neutral-700 py-5 sm:flex-row sm:items-center sm:justify-between">
+          <div className="text-[13px] text-neutral-400">
+            <span className="font-medium text-white">Contact</span> support@luxurycrystal.com · +91 1800 123 4567
+          </div>
+          <p className="text-[12px] tracking-wider text-neutral-500">India · English</p>
+        </div>
+        <div className="py-4">
+          <p className="text-[12px] text-neutral-500">
             © {new Date().getFullYear()} Luxury Crystal Atelier. All rights reserved.
           </p>
         </div>
@@ -128,11 +203,11 @@ export function Footer() {
 }
 
 function SocialIcon({ name }: { name: string }) {
-  const size = 20;
+  const size = 18;
   if (name === "instagram") {
     return (
       <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
-        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z" />
+        <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069z" />
       </svg>
     );
   }

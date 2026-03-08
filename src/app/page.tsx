@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { RevealSection } from "@/components/common/RevealSection";
 import { Button } from "@/ui/Button";
+import { HeroSlider } from "@/components/home/HeroSlider";
 
 export default function Home() {
   return (
@@ -12,10 +13,10 @@ export default function Home() {
       initial={{ opacity: 0, y: 24 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.7, ease: "easeOut" }}
-      className="pb-24 pt-10"
+      className="pb-24"
     >
-      <div className="page-shell space-y-24">
-        <HeroSection />
+      <HeroSlider />
+      <div className="page-shell space-y-24 pt-16">
         <ShopByCategoryPrimary />
         <ArianaCollaboration />
         <ShopByCategorySecondary />
@@ -27,53 +28,12 @@ export default function Home() {
   );
 }
 
-function HeroSection() {
-  return (
-    <RevealSection className="grid gap-10 rounded-xl bg-gradient-to-br from-rose-50 to-cream-warm px-6 pb-16 pt-14 sm:px-10 lg:grid-cols-[1.1fr,1.1fr] lg:px-16">
-      <div className="flex flex-col justify-center">
-        <p className="eyebrow mb-3 text-neutral-700">Charming Love</p>
-        <h1 className="section-title mb-4 text-[40px]">
-          Personalize every look with new Swarovski Charms
-        </h1>
-        <p className="max-w-lg text-[15px] leading-relaxed text-neutral-700">
-          Discover radiant heart-shaped charms and crystal accents designed to be mixed,
-          matched, and layered for every romantic moment.
-        </p>
-        <div className="mt-8 flex flex-wrap gap-3">
-          <Button>Shop now</Button>
-          <Button variant="secondary">Discover more</Button>
-        </div>
-      </div>
-      <div className="relative flex items-center justify-center">
-        <div className="relative h-[420px] w-[420px] overflow-hidden rounded-full bg-[#c3203f] shadow-[0_40px_80px_rgba(0,0,0,0.25)]">
-          <div className="absolute inset-8 rounded-full bg-[#b61a37]" />
-          <div className="absolute inset-4 grid grid-cols-2 gap-4">
-            {[1011, 1025, 1035, 1043].map((id) => (
-              <div
-                key={id}
-                className="group relative overflow-hidden rounded-[32px] bg-[#b51c37]"
-              >
-                <Image
-                  src={`https://picsum.photos/id/${id}/600/800`}
-                  alt="Heart-shaped Swarovski charm"
-                  fill
-                  className="object-cover transition-transform duration-300 group-hover:scale-[1.04]"
-                />
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </RevealSection>
-  );
-}
-
 function ShopByCategoryPrimary() {
   const items = [
-    { label: "Romantic Gifts", href: "/wedding-jewelry" },
-    { label: "Decorations", href: "/" },
-    { label: "Bracelets", href: "/jewelry" },
-    { label: "New In", href: "/" },
+    { label: "Romantic Gifts", href: "/collections/wedding" },
+    { label: "Decorations", href: "/collections/decorations" },
+    { label: "Bracelets", href: "/collections/jewelry" },
+    { label: "New In", href: "/collections/new-in" },
   ];
 
   return (
@@ -125,9 +85,11 @@ function ArianaCollaboration() {
         <p className="mb-6 text-[12px] leading-relaxed text-neutral-600">
           *Exclusive to Club members until June 17, 2026.
         </p>
-        <Button variant="outline" className="w-max">
-          Sign up
-        </Button>
+        <Link href="/collections/new-in">
+          <Button variant="outline" className="w-max">
+            Sign up
+          </Button>
+        </Link>
       </div>
     </RevealSection>
   );
@@ -135,10 +97,10 @@ function ArianaCollaboration() {
 
 function ShopByCategorySecondary() {
   const items = [
-    { label: "Jewelry", href: "/jewelry" },
-    { label: "Watches", href: "/" },
-    { label: "Decorations", href: "/" },
-    { label: "Accessories", href: "/" },
+    { label: "Jewelry", href: "/collections/jewelry" },
+    { label: "Watches", href: "/collections/watches" },
+    { label: "Decorations", href: "/collections/decorations" },
+    { label: "Accessories", href: "/collections/accessories" },
   ];
 
   return (
@@ -180,7 +142,7 @@ function EditorialStories() {
       title: "Wedding Jewelry & Accessories",
       description:
         "Fall in love with bridal designs infused with the brilliance of crystals – from subtle shimmer to all-out glamour.",
-      href: "/wedding-jewelry",
+      href: "/collections/wedding",
     },
     {
       title: "Disney The Lion King x Swarovski",
@@ -278,7 +240,9 @@ function ServicesAndSignup() {
             on your next online purchase (full-price items only).
           </p>
           <div className="mt-6 flex justify-center">
-            <Button variant="light">Join the Club</Button>
+            <Link href="/collections/new-in">
+              <Button variant="light">Join the Club</Button>
+            </Link>
           </div>
         </div>
       </div>

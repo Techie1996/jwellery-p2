@@ -8,6 +8,7 @@ import { Button } from "@/ui/Button";
 import { ProductCard } from "@/components/ui/ProductCard";
 import { CustomOrderModal } from "./CustomOrderModal";
 import { RevealSection } from "@/components/common/RevealSection";
+import { Collapsible } from "@/components/ui/Collapsible";
 
 type ProductDetailClientProps = {
   product: Product;
@@ -46,9 +47,12 @@ export function ProductDetailClient({ product, related }: ProductDetailClientPro
         className="pb-24 pt-8 sm:pt-12"
       >
         <div className="page-shell">
-          <div className="grid gap-12 lg:grid-cols-[1.1fr,0.9fr] lg:gap-16">
-            {/* Gallery */}
-            <section aria-label="Product images" className="space-y-4">
+          <div className="grid gap-8 md:grid-cols-2 md:gap-10 lg:gap-16">
+            {/* Gallery - left */}
+            <section
+              aria-label="Product images"
+              className="order-1 min-w-0 space-y-4"
+            >
               <div className="relative aspect-[4/5] overflow-hidden rounded-lg bg-white shadow-[var(--shadow-md)]">
                 <motion.div
                   key={activeIndex}
@@ -93,8 +97,8 @@ export function ProductDetailClient({ product, related }: ProductDetailClientPro
               </div>
             </section>
 
-            {/* Product info */}
-            <section className="space-y-6">
+            {/* Product info - right */}
+            <section className="space-y-6 order-2 min-w-0">
               <header>
                 <p className="eyebrow text-neutral-500">{product.category}</p>
                 <h1 className="mt-2 font-heading text-[28px] leading-tight tracking-tight text-neutral-900 sm:text-[32px]">
@@ -105,13 +109,10 @@ export function ProductDetailClient({ product, related }: ProductDetailClientPro
 
               <p className="text-[15px] leading-relaxed text-neutral-700">{product.description}</p>
 
-              {/* Specifications */}
+              {/* Specifications - collapsible */}
               {product.specifications && Object.keys(product.specifications).length > 0 && (
-                <div className="border-t border-neutral-200 pt-6">
-                  <h3 className="text-[12px] font-semibold tracking-[0.18em] uppercase text-neutral-700">
-                    Specifications
-                  </h3>
-                  <div className="mt-3 space-y-2">
+                <Collapsible title="Specifications" defaultOpen>
+                  <div className="space-y-2">
                     {Object.entries(product.specifications).map(([key, value]) => (
                       <div key={key} className="flex justify-between gap-4 text-[14px]">
                         <span className="text-neutral-600">{key}</span>
@@ -119,27 +120,21 @@ export function ProductDetailClient({ product, related }: ProductDetailClientPro
                       </div>
                     ))}
                   </div>
-                </div>
+                </Collapsible>
               )}
 
-              {/* Materials */}
+              {/* Materials - collapsible */}
               {product.materials && product.materials.length > 0 && (
-                <div className="border-t border-neutral-200 pt-6">
-                  <h3 className="text-[12px] font-semibold tracking-[0.18em] uppercase text-neutral-700">
-                    Materials
-                  </h3>
-                  <p className="mt-2 text-[14px] leading-relaxed text-neutral-700">
+                <Collapsible title="Materials">
+                  <p className="text-[14px] leading-relaxed text-neutral-700">
                     {product.materials.join(", ")}
                   </p>
-                </div>
+                </Collapsible>
               )}
 
-              {/* Highlights */}
-              <div className="border-t border-neutral-200 pt-6">
-                <h3 className="text-[12px] font-semibold tracking-[0.18em] uppercase text-neutral-700">
-                  Highlights
-                </h3>
-                <ul className="mt-3 space-y-1.5 text-[14px] leading-relaxed text-neutral-700">
+              {/* Highlights - collapsible */}
+              <Collapsible title="Highlights" defaultOpen>
+                <ul className="space-y-1.5 text-[14px] leading-relaxed text-neutral-700">
                   {product.highlights.map((h) => (
                     <li key={h} className="flex gap-2">
                       <span className="text-neutral-400">•</span>
@@ -147,18 +142,15 @@ export function ProductDetailClient({ product, related }: ProductDetailClientPro
                     </li>
                   ))}
                 </ul>
-              </div>
+              </Collapsible>
 
-              {/* Craftsmanship */}
+              {/* Craftsmanship - collapsible */}
               {product.craftsmanship && (
-                <div className="border-t border-neutral-200 pt-6">
-                  <h3 className="text-[12px] font-semibold tracking-[0.18em] uppercase text-neutral-700">
-                    Craftsmanship
-                  </h3>
-                  <p className="mt-2 text-[14px] leading-relaxed text-neutral-700">
+                <Collapsible title="Craftsmanship">
+                  <p className="text-[14px] leading-relaxed text-neutral-700">
                     {product.craftsmanship}
                   </p>
-                </div>
+                </Collapsible>
               )}
 
               {/* Start Custom Order */}
