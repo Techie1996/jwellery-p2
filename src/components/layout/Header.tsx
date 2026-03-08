@@ -67,7 +67,7 @@ const NAV_ITEMS: NavLink[] = [
       featured: {
         label: "Timeless Watches",
         href: "/collections/watches",
-        imageSrc: "https://picsum.photos/seed/timeless-watches/520/720",
+        imageSrc: "https://picsum.photos/seed/timeless-watches/720/980",
       },
     },
   },
@@ -251,8 +251,8 @@ export function Header() {
 
         {/* Mega menu */}
         {hoveredItem?.mega && (
-          <div className="mt-3 hidden border-t border-neutral-200 bg-white/95 px-10 pb-10 pt-8 lg:block">
-            <div className="grid gap-8 lg:grid-cols-[1fr,200px] lg:items-stretch">
+          <div className="mt-3 hidden border-t border-neutral-200 bg-[#fbf6ed] px-10 pb-10 pt-8 lg:block">
+            <div className="grid gap-10 lg:grid-cols-[3fr,1.25fr] lg:items-start">
               <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-4">
                 {hoveredItem.mega.columns.map((column) => (
                   <div key={column.title} className="space-y-3">
@@ -274,21 +274,21 @@ export function Header() {
               {hoveredItem.mega.featured && (
                 <Link
                   href={hoveredItem.mega.featured.href}
-                  className="group flex min-h-[180px] flex-col items-start gap-2 self-stretch lg:min-h-0"
+                  className="group flex flex-col items-start gap-3"
                 >
-                  <div className="relative h-full min-h-[180px] w-full flex-1 overflow-hidden rounded-lg bg-neutral-100 lg:min-h-[200px]">
+                  <div className="relative h-[320px] w-full overflow-hidden rounded-lg bg-white shadow-[var(--shadow-md)]">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
                       src={hoveredItem.mega.featured.imageSrc}
                       alt={hoveredItem.mega.featured.label}
-                      className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.04]"
+                      className="h-full w-full object-cover object-center transition-transform duration-500 group-hover:scale-[1.03]"
                       loading="lazy"
                     />
                   </div>
                   <p className="text-[11px] tracking-[0.18em] uppercase text-neutral-500">
                     Our Picks
                   </p>
-                  <p className="text-[13px] font-medium text-neutral-900">
+                  <p className="text-[14px] font-medium text-neutral-900">
                     {hoveredItem.mega.featured.label}
                   </p>
                 </Link>

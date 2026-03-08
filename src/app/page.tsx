@@ -1,6 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { RevealSection } from "@/components/common/RevealSection";
@@ -9,12 +6,7 @@ import { HeroSlider } from "@/components/home/HeroSlider";
 
 export default function Home() {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
-      className="pb-24"
-    >
+    <div className="pb-24">
       <HeroSlider />
       <div className="page-shell space-y-24 pt-16">
         <ShopByCategoryPrimary />
@@ -24,7 +16,7 @@ export default function Home() {
       </div>
 
       <ServicesAndSignup />
-    </motion.div>
+    </div>
   );
 }
 
@@ -137,17 +129,20 @@ function EditorialStories() {
       title: "Ocean-Inspired Jewelry",
       description:
         "New jewelry families are beautiful works of artistry that capture the shimmer of crystal pearls and ocean hues.",
+      imageSrc: "https://picsum.photos/seed/ocean-jewelry/900/1100",
     },
     {
       title: "Wedding Jewelry & Accessories",
       description:
         "Fall in love with bridal designs infused with the brilliance of crystals – from subtle shimmer to all-out glamour.",
       href: "/collections/wedding",
+      imageSrc: "https://picsum.photos/seed/bridal-jewelry/900/1100",
     },
     {
       title: "Disney The Lion King x Swarovski",
       description:
         "Commemorate a cherished classic with radiant crystal characters that capture every expression.",
+      imageSrc: "https://picsum.photos/seed/crystal-jewelry-story/900/1100",
     },
   ];
 
@@ -161,7 +156,7 @@ function EditorialStories() {
           >
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
-                src="https://picsum.photos/seed/editorial-story/900/1100"
+                src={story.imageSrc}
                 alt={story.title}
                 fill
                 className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"

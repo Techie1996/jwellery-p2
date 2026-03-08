@@ -52,7 +52,7 @@ function FooterColumn({
       <h3 className="mb-3 text-[11px] font-semibold tracking-[0.2em] uppercase text-white/90">
         {title}
       </h3>
-      <ul className="space-y-2">
+      <ul className="space-y-1.5">
         {links.map((link) => (
           <li key={link.label}>
             <Link
@@ -121,18 +121,20 @@ export function Footer() {
   return (
     <footer className="mt-16 border-t border-neutral-200 bg-neutral-900 lg:mt-24">
       <div className="page-shell">
-        {/* Desktop: compact grid */}
-        <div className="hidden gap-8 border-b border-neutral-700 py-8 lg:grid lg:grid-cols-[1.5fr,1fr,1fr,1fr]">
-          <div>
-            <Link href="/" className="inline-block">
-              <span className="font-heading text-[20px] tracking-[0.28em] text-white">
-                LUXURY CRYSTAL
-              </span>
-            </Link>
-            <p className="mt-3 max-w-xs text-[13px] leading-relaxed text-neutral-400">
-              Timeless jewelry and accessories crafted with precision and elegance.
-            </p>
-            <div className="mt-4 flex gap-4">
+        {/* Desktop: brand row + 5 columns (less tall) */}
+        <div className="hidden border-b border-neutral-700 py-7 lg:block">
+          <div className="flex items-center justify-between gap-8 pb-6">
+            <div>
+              <Link href="/" className="inline-block">
+                <span className="font-heading text-[18px] tracking-[0.26em] text-white">
+                  LUXURY CRYSTAL
+                </span>
+              </Link>
+              <p className="mt-2 max-w-md text-[13px] leading-relaxed text-neutral-400">
+                Timeless jewelry and accessories crafted with precision and elegance.
+              </p>
+            </div>
+            <div className="flex gap-4">
               {SOCIAL_LINKS.map((social) => (
                 <a
                   key={social.label}
@@ -147,11 +149,22 @@ export function Footer() {
               ))}
             </div>
           </div>
-          <FooterColumn title="Customer Service" links={CUSTOMER_SERVICE_LINKS} />
-          <FooterColumn title="Shop" links={SHOP_LINKS} />
-          <div className="space-y-6">
+
+          <div className="grid grid-cols-5 gap-10">
+            <FooterColumn title="Shop" links={SHOP_LINKS} />
+            <FooterColumn title="Customer Service" links={CUSTOMER_SERVICE_LINKS} />
             <FooterColumn title="About" links={ABOUT_LINKS} />
             <FooterColumn title="Legal" links={LEGAL_LINKS} />
+            <div className="space-y-2">
+              <h3 className="mb-3 text-[11px] font-semibold tracking-[0.2em] uppercase text-white/90">
+                Contact
+              </h3>
+              <p className="text-[13px] text-neutral-300">support@luxurycrystal.com</p>
+              <p className="text-[13px] text-neutral-300">+91 1800 123 4567</p>
+              <p className="pt-3 text-[12px] tracking-wider text-neutral-500">
+                India · English
+              </p>
+            </div>
           </div>
         </div>
 
@@ -185,10 +198,11 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Contact + Copyright: compact */}
-        <div className="flex flex-col gap-3 border-b border-neutral-700 py-5 sm:flex-row sm:items-center sm:justify-between">
+        {/* Contact row (mobile/tablet only) */}
+        <div className="flex flex-col gap-3 border-b border-neutral-700 py-5 sm:flex-row sm:items-center sm:justify-between lg:hidden">
           <div className="text-[13px] text-neutral-400">
-            <span className="font-medium text-white">Contact</span> support@luxurycrystal.com · +91 1800 123 4567
+            <span className="font-medium text-white">Contact</span> support@luxurycrystal.com ·
+            {" "}+91 1800 123 4567
           </div>
           <p className="text-[12px] tracking-wider text-neutral-500">India · English</p>
         </div>
