@@ -17,9 +17,6 @@ app.post("/api/contact", (req, res) => {
     });
   }
 
-  // In a real project, this is where you would send an email
-  // or persist the inquiry to your CRM or database.
-  // For now, we simply log the payload.
   // eslint-disable-next-line no-console
   console.log("New product inquiry:", {
     name,
@@ -33,6 +30,48 @@ app.post("/api/contact", (req, res) => {
   return res.status(200).json({
     ok: true,
     message: "Your inquiry has been received. Our team will get in touch shortly.",
+  });
+});
+
+app.post("/api/custom-order", (req, res) => {
+  const {
+    productSlug,
+    productName,
+    customization,
+    quantity,
+    notes,
+    name,
+    email,
+    phone,
+    shippingCountry,
+    message,
+  } = req.body || {};
+
+  if (!name || !email || !phone || !productSlug || !productName) {
+    return res.status(400).json({
+      ok: false,
+      error: "Missing required fields.",
+    });
+  }
+
+  // eslint-disable-next-line no-console
+  console.log("New custom order:", {
+    productSlug,
+    productName,
+    customization,
+    quantity: quantity ?? 1,
+    notes,
+    name,
+    email,
+    phone,
+    shippingCountry,
+    message,
+    receivedAt: new Date().toISOString(),
+  });
+
+  return res.status(200).json({
+    ok: true,
+    message: "Your custom order has been received. Our team will contact you shortly.",
   });
 });
 

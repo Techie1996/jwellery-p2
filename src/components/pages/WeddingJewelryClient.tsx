@@ -5,23 +5,24 @@ import Image from "next/image";
 import Link from "next/link";
 import { RevealSection } from "@/components/common/RevealSection";
 import { Button } from "@/ui/Button";
+import { ProductCard } from "@/components/ui/ProductCard";
 import { products } from "@/lib/products";
 
 export function WeddingJewelryClient() {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.7, ease: "easeOut" }}
-      className="pb-24 pt-10"
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="pb-24 pt-8 sm:pt-12"
     >
       <div className="page-shell space-y-20">
-        <RevealSection className="grid gap-10 bg-white px-10 pb-16 pt-12 lg:grid-cols-[1.3fr,1fr] lg:px-16">
+        <RevealSection className="grid gap-10 rounded-xl bg-white px-6 py-12 shadow-[var(--shadow-sm)] sm:px-10 lg:grid-cols-[1.3fr,1fr] lg:px-16">
           <div className="flex flex-col justify-center">
-            <p className="eyebrow mb-2 text-neutral-700">
+            <p className="eyebrow mb-2 text-neutral-600">
               Wedding Jewelry & Accessories
             </p>
-            <h1 className="section-title mb-3 text-[40px]">
+            <h1 className="section-title mb-3 text-[36px] sm:text-[40px]">
               Radiant designs for your big day
             </h1>
             <p className="text-[15px] leading-relaxed text-neutral-700">
@@ -30,7 +31,7 @@ export function WeddingJewelryClient() {
               complement every wedding style and bridal look.
             </p>
           </div>
-          <div className="relative h-[360px] overflow-hidden">
+          <div className="relative aspect-[4/3] overflow-hidden rounded-lg lg:aspect-auto lg:h-[360px]">
             <Image
               src="https://picsum.photos/seed/wedding-hero/1400/900"
               alt="Model wearing pink crystal wedding necklace and earrings"
@@ -43,38 +44,18 @@ export function WeddingJewelryClient() {
 
         <RevealSection className="space-y-8">
           <h2 className="section-title">Featured Wedding Sets</h2>
-          <div className="grid gap-8 md:grid-cols-3">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             {products.map((product) => (
-              <Link
+              <ProductCard
                 key={product.slug}
-                href={`/products/${product.slug}`}
-                className="group flex flex-col bg-white"
-              >
-                <div className="relative aspect-[3/4] overflow-hidden bg-[#f9f3ec]">
-                  <Image
-                    src={product.images[0]?.src}
-                    alt={product.images[0]?.alt ?? product.name}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-[1.04]"
-                  />
-                </div>
-                <div className="border-x border-b border-neutral-200 bg-white px-5 pb-6 pt-5">
-                  <h3 className="mb-1 text-[14px] font-semibold tracking-[0.16em] uppercase text-neutral-900">
-                    {product.name} set
-                  </h3>
-                  <p className="mb-2 text-[13px] text-neutral-700">
-                    {product.description}
-                  </p>
-                  <p className="text-[13px] font-medium text-neutral-900">
-                    {product.priceFormatted}
-                  </p>
-                </div>
-              </Link>
+                product={product}
+                detail={product.description}
+              />
             ))}
           </div>
         </RevealSection>
 
-        <RevealSection className="space-y-6 bg-[#f2ebdd] px-10 py-10 lg:px-16">
+        <RevealSection className="space-y-6 rounded-xl bg-cream-dark px-6 py-12 sm:px-10 lg:px-16">
           <h2 className="section-title">Styling Inspiration</h2>
           <p className="max-w-3xl text-[14px] leading-relaxed text-neutral-700">
             Explore crystal-embellished necklaces, earrings, and bracelets that add
@@ -82,9 +63,11 @@ export function WeddingJewelryClient() {
             looks alike. Layer delicate chains, stack tennis bracelets, or pair classic
             pearls with contemporary silhouettes for a personalized bridal style.
           </p>
-          <Button variant="ghost" className="w-max">
-            Shop all wedding jewelry
-          </Button>
+          <Link href="/jewelry">
+            <Button variant="ghost" className="w-max">
+              Shop all wedding jewelry
+            </Button>
+          </Link>
         </RevealSection>
       </div>
     </motion.div>

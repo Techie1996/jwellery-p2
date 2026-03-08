@@ -9,6 +9,19 @@ export type ContactPayload = {
   message: string;
 };
 
+export type CustomOrderPayload = {
+  productSlug: string;
+  productName: string;
+  customization?: string;
+  quantity: number;
+  notes?: string;
+  name: string;
+  email: string;
+  phone: string;
+  shippingCountry?: string;
+  message?: string;
+};
+
 export type ContactResponse =
   | {
       ok: true;
@@ -39,6 +52,32 @@ export async function submitProductInquiry(
         "error" in data && data.error
           ? data.error
           : "Something went wrong while submitting the form.",
+    };
+  }
+
+  return data;
+}
+
+export async function submitCustomOrder(
+  payload: CustomOrderPayload,
+): Promise<ContactResponse> {
+  const res = await fetch(`${DEFAULT_API_BASE}/api/custom-order`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const data = (await res.json()) as ContactResponse;
+
+  if (!res.ok) {
+    return {
+      ok: false,
+      error:
+        "error" in data && data.error
+          ? data.error
+          : "Something went wrong while submitting your order.",
     };
   }
 

@@ -29,7 +29,7 @@ export default function Home() {
 
 function HeroSection() {
   return (
-    <RevealSection className="grid gap-10 rounded-none bg-[#f6e3e4] px-10 pb-16 pt-14 lg:grid-cols-[1.1fr,1.1fr] lg:px-16">
+    <RevealSection className="grid gap-10 rounded-xl bg-gradient-to-br from-rose-50 to-cream-warm px-6 pb-16 pt-14 sm:px-10 lg:grid-cols-[1.1fr,1.1fr] lg:px-16">
       <div className="flex flex-col justify-center">
         <p className="eyebrow mb-3 text-neutral-700">Charming Love</p>
         <h1 className="section-title mb-4 text-[40px]">
@@ -70,31 +70,31 @@ function HeroSection() {
 
 function ShopByCategoryPrimary() {
   const items = [
-    { label: "Romantic Gifts" },
-    { label: "Decorations" },
-    { label: "Bracelets" },
-    { label: "New In" },
+    { label: "Romantic Gifts", href: "/wedding-jewelry" },
+    { label: "Decorations", href: "/" },
+    { label: "Bracelets", href: "/jewelry" },
+    { label: "New In", href: "/" },
   ];
 
   return (
     <RevealSection className="space-y-8">
       <h2 className="section-title text-center">Shop by Category</h2>
-      <div className="grid gap-6 md:grid-cols-4">
+      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
         {items.map((item) => (
           <Link
             key={item.label}
-            href="/wedding-jewelry"
-            className="group flex flex-col bg-white"
+            href={item.href}
+            className="group flex flex-col overflow-hidden rounded-lg bg-white shadow-[var(--shadow-sm)] transition-shadow duration-300 hover:shadow-[var(--shadow-md)]"
           >
-            <div className="relative aspect-[3/4] overflow-hidden bg-[#f9f3ec]">
+            <div className="relative aspect-[3/4] overflow-hidden bg-cream-warm">
               <Image
                 src="https://picsum.photos/seed/romantic/640/800"
                 alt={item.label}
                 fill
-                className="object-cover transition-transform duration-300 group-hover:scale-[1.04]"
+                className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
               />
             </div>
-            <div className="border-x border-b border-neutral-200 bg-white py-4 text-center text-[13px] tracking-[0.18em] uppercase text-neutral-800">
+            <div className="border-t border-neutral-100 px-4 py-4 text-center text-[13px] tracking-[0.18em] uppercase text-neutral-800">
               {item.label}
             </div>
           </Link>
@@ -106,7 +106,7 @@ function ShopByCategoryPrimary() {
 
 function ArianaCollaboration() {
   return (
-    <RevealSection className="grid gap-12 bg-white px-10 py-16 lg:grid-cols-[1.3fr,1fr] lg:px-16">
+    <RevealSection className="grid gap-12 rounded-xl bg-white px-6 py-16 shadow-[var(--shadow-sm)] sm:px-10 lg:grid-cols-[1.3fr,1fr] lg:px-16">
       <div className="relative h-[340px] overflow-hidden rounded-[40px] bg-gradient-to-tr from-[#80d0f5] via-[#c1f0e4] to-[#f5f2ff]">
         <Image
           src="https://picsum.photos/seed/ariana-fantasy/1200/700"
@@ -134,24 +134,33 @@ function ArianaCollaboration() {
 }
 
 function ShopByCategorySecondary() {
-  const items = ["Jewelry", "Watches", "Decorations", "Accessories"];
+  const items = [
+    { label: "Jewelry", href: "/jewelry" },
+    { label: "Watches", href: "/" },
+    { label: "Decorations", href: "/" },
+    { label: "Accessories", href: "/" },
+  ];
 
   return (
     <RevealSection className="space-y-8">
       <h2 className="section-title text-center">Shop by Category</h2>
-      <div className="grid gap-6 md:grid-cols-4">
-        {items.map((label) => (
-          <Link key={label} href="/" className="group flex flex-col bg-white">
-            <div className="relative aspect-[3/4] overflow-hidden bg-[#f9f3ec]">
+      <div className="grid gap-6 sm:grid-cols-2 md:grid-cols-4">
+        {items.map((item) => (
+          <Link
+            key={item.label}
+            href={item.href}
+            className="group flex flex-col overflow-hidden rounded-lg bg-white shadow-[var(--shadow-sm)] transition-shadow duration-300 hover:shadow-[var(--shadow-md)]"
+          >
+            <div className="relative aspect-[3/4] overflow-hidden bg-cream-warm">
               <Image
-                src={`https://picsum.photos/seed/${encodeURIComponent(label.toLowerCase())}/640/800`}
-                alt={label}
+                src={`https://picsum.photos/seed/${encodeURIComponent(item.label.toLowerCase())}/640/800`}
+                alt={item.label}
                 fill
-                className="object-cover transition-transform duration-300 group-hover:scale-[1.04]"
+                className="object-cover transition-transform duration-500 group-hover:scale-[1.05]"
               />
             </div>
-            <div className="border-x border-b border-neutral-200 bg-[#f4eee3] py-4 text-center text-[13px] tracking-[0.18em] uppercase text-neutral-800">
-              {label}
+            <div className="border-t border-neutral-100 bg-cream-warm px-4 py-4 text-center text-[13px] tracking-[0.18em] uppercase text-neutral-800">
+              {item.label}
             </div>
           </Link>
         ))}
@@ -182,9 +191,12 @@ function EditorialStories() {
 
   return (
     <RevealSection className="space-y-10">
-      <div className="grid gap-8 lg:grid-cols-3">
+      <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
         {stories.map((story) => (
-          <article key={story.title} className="group flex flex-col bg-white">
+          <article
+            key={story.title}
+            className="group flex flex-col overflow-hidden rounded-lg bg-white shadow-[var(--shadow-sm)] transition-shadow duration-300 hover:shadow-[var(--shadow-md)]"
+          >
             <div className="relative aspect-[4/5] overflow-hidden">
               <Image
                 src="https://picsum.photos/seed/editorial-story/900/1100"
@@ -193,7 +205,7 @@ function EditorialStories() {
                 className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
               />
             </div>
-            <div className="border-x border-b border-neutral-200 bg-white px-6 pb-8 pt-6">
+            <div className="border-t border-neutral-100 px-6 pb-8 pt-6">
               <h3 className="mb-2 font-heading text-[20px] leading-snug text-neutral-900">
                 {story.title}
               </h3>
@@ -203,7 +215,7 @@ function EditorialStories() {
               {story.href && (
                 <Link
                   href={story.href}
-                  className="mt-4 inline-flex text-[12px] tracking-[0.18em] uppercase text-neutral-900 underline underline-offset-4"
+                  className="mt-4 inline-flex text-[12px] tracking-[0.18em] uppercase text-neutral-900 underline underline-offset-4 transition-colors hover:text-neutral-700"
                 >
                   Shop wedding jewelry
                 </Link>
@@ -237,14 +249,14 @@ function ServicesAndSignup() {
   ];
 
   return (
-    <section className="mt-24 bg-[#f2ebdd] pb-16 pt-14">
+    <section className="mt-24 rounded-t-2xl bg-cream-dark pb-16 pt-14">
       <div className="page-shell space-y-14">
         <div>
-          <h2 className="section-title mb-8 text-center">Swarovski Services</h2>
-          <div className="grid gap-8 md:grid-cols-4">
+          <h2 className="section-title mb-8 text-center">Our Services</h2>
+          <div className="grid gap-8 sm:grid-cols-2 md:grid-cols-4">
             {services.map((service) => (
               <div key={service.title} className="space-y-3 text-center md:text-left">
-                <div className="mx-auto mb-2 h-8 w-8 rounded-full border border-neutral-700/40 md:mx-0" />
+                <div className="mx-auto mb-2 flex h-10 w-10 items-center justify-center rounded-full bg-neutral-200/60 md:mx-0" />
                 <h3 className="text-[14px] font-semibold tracking-[0.16em] uppercase text-neutral-900">
                   {service.title}
                 </h3>
@@ -256,17 +268,17 @@ function ServicesAndSignup() {
           </div>
         </div>
 
-        <div className="rounded-none bg-[#9ac7f0] px-10 py-10 text-center md:px-16">
-          <h2 className="mb-3 font-heading text-[24px] tracking-tight text-neutral-900">
+        <div className="rounded-xl bg-neutral-800 px-6 py-12 text-center text-white sm:px-10 md:px-16">
+          <h2 className="mb-3 font-heading text-[24px] tracking-tight">
             Sign up and get 10% off*
           </h2>
-          <p className="mx-auto max-w-2xl text-[14px] leading-relaxed text-neutral-800">
+          <p className="mx-auto max-w-2xl text-[14px] leading-relaxed text-neutral-200">
             Be first to receive updates on new collections, style inspiration, gift ideas,
-            and exclusive access. Sign up to the Swarovski Club today and receive 10% off*
+            and exclusive access. Join the Club today and receive 10% off*
             on your next online purchase (full-price items only).
           </p>
           <div className="mt-6 flex justify-center">
-            <Button>Join the Club</Button>
+            <Button variant="light">Join the Club</Button>
           </div>
         </div>
       </div>
