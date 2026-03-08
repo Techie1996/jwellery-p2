@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+:root {
+  --background: #f4eee3; /* soft warm cream similar to Swarovski */
+  --foreground: #141414;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-body);
+  --font-heading: var(--font-heading);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), system-ui, -apple-system, BlinkMacSystemFont,
+    "Segoe UI", sans-serif;
+}
+
+.page-shell {
+  @apply mx-auto max-w-[1440px] px-8 lg:px-20;
+}
+
+.nav-link {
+  @apply text-[13px] tracking-[0.16em] uppercase text-neutral-900/80 transition-colors hover:text-neutral-900;
+}
+
+.section-title {
+  @apply font-heading text-[32px] leading-[1.2] tracking-tight text-neutral-900;
+}
+
+.eyebrow {
+  @apply text-[11px] font-medium tracking-[0.24em] uppercase text-neutral-500;
+}
